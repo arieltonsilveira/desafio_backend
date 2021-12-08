@@ -1,8 +1,9 @@
 <?php
+namespace App;
 
 class EntradaDados
 {
-    private $entrada;
+    protected $entrada;
     private $numero_casos;
 
     function __construct($caminho_arquivo)
