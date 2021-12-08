@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 class CalcularAgua {
 
   private int $tamanho;
@@ -10,37 +12,6 @@ class CalcularAgua {
   public function __construct()
   {
     $data = $this->lerArquivo();
-    $this->numero_casos = (int) $data[0];
-    $this->validarNumeroDeCasos();
-    $data = $this->removeNumeroCasos($data);
-    $this->carregarValorEntrada($data);
-  }
-
-  private function validarNumeroDeCasos(): void
-  {
-    if ($this->numero_casos < 1 || $this->numero_casos > 100) {
-      echo "Numero de cassos Informado é menor que 1 ou maior que 100\n";
-      exit;
-    }
-  }
-
-  private function removeNumeroCasos(array $data): array
-  {
-    array_splice($data, 0, 1);
-    return $data;
-  }
-
-  private function tamanhoArrayCasos(): int 
-  {
-    return $this->numero_casos * 2;
-  } 
-
-  private function carregarValorEntrada(array $data): void 
-  {
-    for ($i=0; $i < $this->tamanhoArrayCasos(); $i+=2) { 
-      $this->valores_entrada[$i] = (int) $data[$i];
-      $this->valores_entrada[$i+1] = array_map('intval', explode(' ', $data[$i+1]));
-    }
   }
 
   public function imprimirSaida() 
@@ -156,6 +127,3 @@ class CalcularAgua {
   }
 
 }
-
-$calculo = new CalcularAgua();
-$calculo->imprimirSaida();
