@@ -2,29 +2,24 @@
 
 namespace App;
 
-class converteEntrada {
+use Exception;
+
+class ConverteEntrada {
 
     private int     $numero_casos;
     private array   $entrada;
 
     public function __construct(array $entrada)
     {
-        $this->entrada = $entrada;
-        $this->pegarNumeroCasos();
-        $this->removerNumeroCasosEntrada();
-    }
 
-    private function pegarNumeroCasos(): void
-    {
-        if (!is_int($this->entrada[0])) {
-            throw "Erro: Numero de casos invalido";
-        }
-        $this->numero_casos = $this->entrada[0];
+        $this->entrada = $entrada;
+        $this->numero_casos = (int) $entrada[0];
+        $this->removerNumeroCasosEntrada();
     }
 
     private function removerNumeroCasosEntrada(): void
     {
-        $this->entrada = array_splice($this->entrada, 0, 1);
+        array_shift($this->entrada);
     }
 
     public function converteEntradaEmInteiro(): array

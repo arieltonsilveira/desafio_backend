@@ -12,22 +12,33 @@ class ValidadorEntrada
 
     function __construct(array $entrada)
     {
-        $this->numero_casos = $entrada[0];
-        $this->entrada = array_splice($entrada, 0, 1);
+        $entrada = $this->limpar($entrada);
+
+        $this->numero_casos = (int) $entrada[0];
+
+        array_shift($entrada);
+
+        $this->entrada = $entrada;
+    }
+
+    public function limpar($entrada): array
+    {
+        return array_map(function ($value) {
+            return trim(preg_replace('/\D/', ' ', $value));
+        }, $entrada);
     }
 
     public function executar(): void
     {
         $this->validarValorDeCasos();
         $this->validarQuantidadeCasos();
-        $this->validarArrayNumerico();
         $this->validarSilhuetas();
     }
 
     private function validarValorUnicoLinha($valor): void
     {
-        preg_match_all('[0-9]{1,}', $valor, $resultado);
-        if (!count($resultado) !== 1) {
+        preg_match_all("/[0-9]+/", $valor, $resultado);
+        if (count($resultado[0]) != 1) {
             throw new Exception("Erro: Entrada numero casos ou tamanho do array invalido");
         }
     }
@@ -42,7 +53,7 @@ class ValidadorEntrada
     private function validarSilhuetas(): void
     {
         for ($i=0; $i < count($this->entrada); $i+=2) {
-            $this->contarElementosSilhueta($this->entrada[$i + 1][0],  (int) $this->entrada[$i][0]);
+            $this->contarElementosSilhueta($this->entrada[$i + 1], $this->entrada[$i]);
         }
     }
 
@@ -55,24 +66,9 @@ class ValidadorEntrada
         }
     }
 
-    private function validarArrayNumerico(): void
-    {
-        foreach ($this->entrada as $value) {
-            $this->entradaNumerica($value);
-        }
-    }
-
-    private function entradaNumerica(string $entrada): void
-    {
-        preg_match('/[^0-9 ]/', $entrada, $resultado);
-        if (!empty($resultado)) {
-            throw new Exception("Erro: O arquivo contem valores invalidos!");
-        }
-    }
-
     private function validarQuantidadeCasos(): void
     {
-        if ((count($this->entrada) / 2) === $this->numero_casos) {
+        if (count($this->entrada) / 2 !== $this->numero_casos) {
             throw new Exception("Erro: Numero de casos informado esta diferente da quantidade de cassos!");
         }
     }

@@ -10,7 +10,7 @@ class EntradaDados
 
     public function __construct(string $caminho_arquivo)
     {
-        $this->caminho_arquivo = __DIR__."/".$caminho_arquivo;
+        $this->caminho_arquivo = __DIR__ ."/". $caminho_arquivo;
     }
 
     /*
