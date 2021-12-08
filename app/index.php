@@ -1,9 +1,12 @@
 <?php
 require __DIR__ .'/vendor/autoload.php';
 
-use App\CalcularAgua;
+use App\CalcularVolumeLiquido;
+use App\EntradaDados;
 
+$arquivo = "entrada.txt";
 
-
-$calculo = new CalcularAgua();
-$calculo->imprimirSaida();
+$entrada = new EntradaDados($arquivo);
+var_dump($entrada->lerArquivo());
+//$calculo = new CalcularVolumeLiquido();
+//$calculo->imprimirSaida();

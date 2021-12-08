@@ -2,32 +2,33 @@
 
 namespace App;
 
-class CalcularVolumeLiquido extends EntradaDados
+class CalcularVolumeLiquido
 {
 
-    private int $tamanho;
-    private array $silhuetas;
+    private int     $tamanho;
+    private array   $silhuetas;
+    private array   $entrada;
 
-    public function __construct()
+    public function __construct(array $entrada)
     {
+        $this->entrada = $entrada;
     }
 
     private function processarResultados(): array
     {
         $resultados = [];
 
-        for ($i = 0; $i < $this->tamanhoArrayCasos(); $i += 2) {
+        for ($i = 0; $i < count($this->entrada); $i += 2) {
             $this->tamanho = $this->entrada[$i];
             $this->silhuetas = $this->entrada[$i + 1];
             array_push($resultados, $this->calcularPreenchimentoCaso());
         }
-
         return $resultados;
     }
 
-    public function imprimirResultado(array $resultados)
+    public function imprimirResultado(): void
     {
-        foreach ($resultados as $key => $value) {
+        foreach ($this->processarResultados() as $value) {
             echo $value . "\n";
         }
     }
@@ -38,7 +39,7 @@ class CalcularVolumeLiquido extends EntradaDados
 
         if ($indice_topo === 0) {
             return $this->contarQuantidadeAgua($this->calcularEspacoAgua($this->InverterSilhuetas($this->silhuetas)));
-        } else if ($indice_topo === $this->tamanho - 1) {
+        } elseif ($indice_topo === $this->tamanho - 1) {
             return $this->contarQuantidadeAgua($this->calcularEspacoAgua($this->silhuetas));
         } else {
             $silhuetasArray = $this->separarSilhuetasTopo($indice_topo);
@@ -57,7 +58,9 @@ class CalcularVolumeLiquido extends EntradaDados
 
         foreach ($silhuetas as $key => $silhueta) {
 
-            if ($topo < $silhueta) $topo = $silhueta;
+            if ($topo < $silhueta) {
+                $topo = $silhueta;
+            }
 
             if ($topo > $silhueta) {
                 $matriz_agua[$key] = array($topo, $topo - $silhueta);
