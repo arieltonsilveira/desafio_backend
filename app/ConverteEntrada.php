@@ -22,7 +22,7 @@ class ConverteEntrada {
         array_shift($this->entrada);
     }
 
-    public function converteEntradaEmInteiro(): array
+    public function executar(): array
     {
         for ($i = 0; $i < $this->tamanhoArrayCasos(); $i += 2) {
             $this->entrada[$i] = (int) $this->entrada[$i];
